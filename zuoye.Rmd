@@ -1,0 +1,73 @@
+---
+title: "Canadian General Social Survey"
+author: "Benner Feng"
+date: "2022/3/14"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(modelsummary)
+library(knitr)
+library(lubridate)
+library(lattice)
+library(ggcharts)
+```
+``
+```{r}
+setwd("C:/Users/whitedwarf/Desktop/312 pp3")
+gss <- read.csv("gss.csv")
+gss2 <- read.csv("gss2.csv")
+```
+
+```{r}
+sex <- table(gss[,'sex']); print(sex)
+barplot(sex,width=0.8, xlim=c(-1, 5),
+        main="gender distribution",
+        col=c("brown2","aliceblue"))
+```
+```{r}
+gss <- within(gss,{
+                     age[age>75] <- "Elder"
+                     age[age>=60 & age<=75] <- "retired"
+                     age[age>=40 & age<60] <- "Middle Age"
+                     age[age<40 & age>=20] <- "Young"
+                     age[age<20] <- "kids"})
+gss
+
+```
+
+
+```{r}
+
+popcat <- gss %>% 
+  select(age)
+#pyramid_chart(gss,age,group=sex)
+```
+
+```{r}
+p <- table(popcat)
+p
+```
+
+
+
+```{r}
+P1 %>% 
+
+  ggplot(aes(fct_infreq(Category)))+
+  geom_bar(fill="#3C963C")+
+  coord_flip()+
+  theme_gray()+
+  theme(axis.text = element_text(size = 5))+
+  labs(x="categerats",
+       y=NULL,
+       title= "categaries of business licences")
+```
+
